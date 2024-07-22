@@ -1,0 +1,10 @@
+name = "BoundaryTest"
+uuid = "9352fd3f-d580-429e-9771-a9fe56d273cd"
+authors = ["camillo.schenone "]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NearestNeighbors = "b8a86587-4115-5ab1-83bc-aa920d37bbce"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
