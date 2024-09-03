@@ -22,7 +22,7 @@ function _first_order(X::AbstractMatrix, r; knndata=nothing)
 	p = Progress(n; dt=1.0, showspeed=true)
 	@inbounds Threads.@threads for i = 1:n
 		# for the ith point we first find the other points within the ball B(xᵢ, r)
-		idxs = inrange(tree, X[:, i], r)
+		idxs = inrange(tree, view(X, :, i), r)
 
 		diffs = @views X[:, idxs] .- X[:, i]
 
@@ -51,7 +51,7 @@ function _first_order_manifold(X::AbstractMatrix, r, m; knndata=nothing)
 	p = Progress(n; dt=1.0, showspeed=true)
 	@inbounds Threads.@threads for i = 1:n
 		# for the ith point we first find the other points within the ball B(xᵢ, r)
-		idxs = inrange(tree, X[:, i], r)
+		idxs = inrange(tree, view(X, :, i), r)
 
 		diffs = @views X[:, idxs] .- X[:, i]
 
@@ -67,9 +67,8 @@ function _first_order_manifold(X::AbstractMatrix, r, m; knndata=nothing)
 		normals[:, i] .= -normalize!(T*T'*sum(diffs, dims=2))
 
 		# dᵣ(xᵢ) = max_{xⱼ ∈ B(xᵢ,r)∩χ} -(xⱼ - xᵢ)⋅νᵣ(xᵢ)
-		dᵢ = mapreduce(d -> dot(d, view(normals, :, i)), max, eachcol(diffs))
-
-		# return the test statistic for every point, so only one pass is necessary.
+		# dᵢ = mapreduce(d -> dot(d, view(normals, :, i)), max, eachcol(diffs))
+		dᵢ = maximum(diffs' * view(normals, :, i))
 		border_dist[i] = dᵢ
 		next!(p)
 	end

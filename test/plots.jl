@@ -16,14 +16,14 @@ point_2sphere(r, θ = 2π*rand()) = point_2ball(r, θ, 1)
 point_2rect(a, b) = [a * rand() - a/2, b * rand() - b/2]
 
 R = 5
-N = 80000
+N = 20000
 grid = false
 
 ## -- wavey-2-ball
-# N_base = rand(N);
-# points = [point_2ball(R + R/6*sin(2pi*5*i), 2pi*i) for i in N_base ];
-# true_distances = [abs(R + R/6*sin(2pi*5*N_base[i]) - sqrt(p[1]^2+p[2]^2)) for (i,p) in enumerate(points)];
-# ρ_true = length(points) / (ω(2)R^2)
+N_base = rand(N);
+points = [point_2ball(R + R/6*sin(2pi*5*i), 2pi*i) for i in N_base ];
+true_distances = [abs(R + R/6*sin(2pi*5*N_base[i]) - sqrt(p[1]^2+p[2]^2)) for (i,p) in enumerate(points)];
+ρ_true = length(points) / (ω(2)R^2)
 
 ## -- 2-ball
 # points = [point_2ball(R) for i in 1:N ];
@@ -31,10 +31,10 @@ grid = false
 # ρ_true = length(points) / (ω(2)R^2)
 
 ## -- grid
-points = vec([[a, b] for a in -R:0.5:R, b in -R:0.5:R]); #grid
-true_distances = [min(R - abs(p[1]), R - abs(p[2])) for p in points];
-ρ_true = length(points) / (2R)^2
-grid = true
+# points = vec([[a, b] for a in -R:0.5:R, b in -R:0.5:R]); #grid
+# true_distances = [min(R - abs(p[1]), R - abs(p[2])) for p in points];
+# ρ_true = length(points) / (2R)^2
+# grid = true
 
 ## -- box
 # points = [point_2rect(2R, 2R) for _ in 1:N];
